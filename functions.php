@@ -87,6 +87,12 @@ class Pattern{
     }
 }
 
+/**
+ * This class takes a regular expression and searches the dictionary
+ * for words that match.
+ * Matching words are returned in an array, reachable by using the
+ * searchResults property.
+ */
 class DictionarySearch{
     private $searchTerm = '';
     public $searchResults = [];
@@ -120,13 +126,13 @@ class DictionarySearch{
     }
 }
 
-$obj = new Pattern('D g');
-echo $obj->getLetters() . "<br />";
-echo $obj->getSearchLetters() . "<br />";
-$search_string = $obj->getSearchLetters();
-echo $obj->getDisplayLetters() . "<br />";
-
-$srch = new DictionarySearch($search_string);
-//echo var_dump($srch);
-$srch->searchDictionary();
-echo '<pre>'; print_r($srch->searchResults); echo '</pre>';
+//$obj = new Pattern('D g');
+//echo $obj->getLetters() . "<br />";
+//echo $obj->getSearchLetters() . "<br />";
+//$search_string = $obj->getSearchLetters();
+//echo $obj->getDisplayLetters() . "<br />";
+//
+//$srch = new DictionarySearch($search_string);
+////echo var_dump($srch);
+//$srch->searchDictionary();
+//echo '<pre>'; print_r($srch->searchResults); echo '</pre>';

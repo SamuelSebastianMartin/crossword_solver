@@ -14,4 +14,6 @@ Use
 TODO
 ----
 
-  The functions are working, but not connected.
+  All working - only cosmetic changes needed, and
+  possibly to exclude results with apostrophes:
+  *dog* and *dog's* are currently both valid.

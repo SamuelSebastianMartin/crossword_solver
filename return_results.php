@@ -6,45 +6,27 @@
 
   <body>
 <?php
-// For changing the entered  string into the regex search term,
-// (and a string to display to the user).
-function replaceBlanks($regex, $replacement, $letters){
-        $new_string = preg_replace($regex, $replacement, $letters);
-        return $new_string;
-}
+require_once('functions.php');
 
 
 $letters = strtolower($_POST["searchterm"]);
-$regex = '/[^a-z]/i'; // matches any non-letter in input.
-$replacement = '.';
 
-$display_pattern = replaceBlanks($regex, '.', $letters);
-$search_pattern = replaceBlanks($regex, "/[a-z]", $letters);
+$pattern = new Pattern($letters);
 
-echo "<h1  class='mono'>$display_pattern</h1>";
-echo "<h3  class='mono'>$search_pattern</h3>";
+$display_pattern = $pattern->getDisplayLetters();
+$search_pattern = $pattern->getSearchLetters();
 
-// Load dictionary.
-$dict = file_get_contents('/usr/share/dict/words');
-if(is_null($dict)){
-        echo "Dictionary is null";
-}
-else {
-        echo "<p>Dictionary loaded</p>";
-}
-var_dump($search_pattern);
+echo "<h1>Searching for:<br /><span class='mono'>$display_pattern</span></h1>";
+
 
 //search for the word in the dictionary.
-if(preg_match_all($pattern, $dict, $all_matches)){
-   echo "Found matches:\n";
-   echo implode("\n", $all_matches[0]);
-}
-else{
-   echo "No matches found";
-}
+$dicSearch = new DictionarySearch($search_pattern);
+$dicSearch->searchDictionary();
+$searchResults = $dicSearch->searchResults;
 
-preg_match_all($pattern, $dict, $matches);
-echo count($matches);
+//display results
+
+echo '<pre>'; print_r($searchResults); echo '</pre>';
 
 ?>
 
