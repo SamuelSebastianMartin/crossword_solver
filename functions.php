@@ -53,6 +53,11 @@ class Pattern{
         return $this->displayLetters;
     }
 
+    /**
+     * Replaces wild-cards with regex (\w) for any-letter, and
+     * wraps the resulting expression in a word-boundary (\b),
+     * and a regex delimiter (/).
+     */
     private function setSearchLetters(){
         $this->searchLetters = $this->processLetters('\w');
         $this->searchLetters = "/\b". $this->searchLetters. "\b/";
@@ -69,14 +74,6 @@ class Pattern{
     }
 
     /**
-     * This to be deleted when testing is over. It will not
-     * be needed in the final class.
-     */
-    public function getLetters(){
-        return $this->letters;
-    }
-
-    /**
      * This performs the regex substitution on the users
      * search term. It is passed the substututeString 
      * variable depending on the function it is called by
@@ -86,6 +83,7 @@ class Pattern{
         return $newString;
     }
 }
+
 
 /**
  * This class takes a regular expression and searches the dictionary
@@ -106,10 +104,12 @@ class DictionarySearch{
      */
     public function searchDictionary(){
         $dict = fopen("/usr/share/dict/words", "r");
-        while(! feof($dict)){
-            $word = fgets($dict);
-            if(preg_match($this->searchTerm, $word)){
+        while(! feof($dict)){  // Checks for end of file.
+            $word = fgets($dict);  // Reads line by line.
+            if(preg_match($this->searchTerm, $word)){  // Checks for possible match.
+                if (strpos($word, "'") == false) { // Don't include results with apostrophe.
                 $this->searchResults[] = $word;
+                }
             }
         }
         if(count($this->searchResults) == 0){
@@ -117,22 +117,4 @@ class DictionarySearch{
         }
         fclose($dict);
     }
-
-    /**
-     * Temp
-     */
-    public function getSearchTerm(){
-        return $this->searchTerm;
-    }
 }
-
-//$obj = new Pattern('D g');
-//echo $obj->getLetters() . "<br />";
-//echo $obj->getSearchLetters() . "<br />";
-//$search_string = $obj->getSearchLetters();
-//echo $obj->getDisplayLetters() . "<br />";
-//
-//$srch = new DictionarySearch($search_string);
-////echo var_dump($srch);
-//$srch->searchDictionary();
-//echo '<pre>'; print_r($srch->searchResults); echo '</pre>';

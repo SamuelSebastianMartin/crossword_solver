@@ -5,32 +5,42 @@
   </head>
 
   <body>
+    <div class="search-input">
 <?php
-require_once('functions.php');
+    require_once('functions.php'); // the 2 classes used.
 
+    $letters = strtolower($_POST["searchterm"]); // input from form.
+    $pattern = new Pattern($letters); // process input: class.
+    $display_pattern = $pattern->getDisplayLetters(); // to display to user.
+    $search_pattern = $pattern->getSearchLetters();  // to use for searching.
 
-$letters = strtolower($_POST["searchterm"]);
-
-$pattern = new Pattern($letters);
-
-$display_pattern = $pattern->getDisplayLetters();
-$search_pattern = $pattern->getSearchLetters();
-
-echo "<h1>Searching for:<br /><span class='mono'>$display_pattern</span></h1>";
-
-
-//search for the word in the dictionary.
-$dicSearch = new DictionarySearch($search_pattern);
-$dicSearch->searchDictionary();
-$searchResults = $dicSearch->searchResults;
-
-//display results
-
-echo '<pre>'; print_r($searchResults); echo '</pre>';
-
+    echo "<h3>Searching for:</h3>";
 ?>
+
+      <div id="word pattern" class="form" style="height: 30; padding: 10;">
+<?php
+    echo "<h3>$display_pattern</h3>";
+?>
+      </div>
+<?php
+    //search for the word in the dictionary.
+    $dicSearch = new DictionarySearch($search_pattern);
+    $dicSearch->searchDictionary();
+    $searchResults = $dicSearch->searchResults;
+?>
+
+      <div id="display results" class="form" style="text-align: left; padding: 10;">
+<?php
+    //display results
+    for($x = 0; $x < count($searchResults); $x++) {
+        echo $searchResults[$x];
+        echo "<br>";
+    }
+?>
+      </div>
 
     <center></br><a href="http://localhost/php/crossword_solver/">Try another word</a></center>
 
+    </div>
   </body>
 </head>
