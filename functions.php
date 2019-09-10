@@ -55,7 +55,7 @@ class Pattern{
 
     private function setSearchLetters(){
         $this->searchLetters = $this->processLetters('\w');
-        //$this->searchLetters = "/\b$this->searchLetters\b/";
+        $this->searchLetters = "/\b". $this->searchLetters. "\b/";
     }
 
     /**
@@ -123,13 +123,10 @@ class DictionarySearch{
 $obj = new Pattern('D g');
 echo $obj->getLetters() . "<br />";
 echo $obj->getSearchLetters() . "<br />";
+$search_string = $obj->getSearchLetters();
 echo $obj->getDisplayLetters() . "<br />";
 
-$srch = new DictionarySearch('/\bd\wg\b/');
+$srch = new DictionarySearch($search_string);
 //echo var_dump($srch);
 $srch->searchDictionary();
-echo $srch->searchResults;
-for($i = 0, $size = count($srch->searchResults); $i < $size; ++$i) {
-    echo "$srch->searchResults[$i]<br />";
-}
 echo '<pre>'; print_r($srch->searchResults); echo '</pre>';
